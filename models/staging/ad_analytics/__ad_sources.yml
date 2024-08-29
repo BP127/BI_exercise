@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: ad_analytics
+    database: dbt_bi  
+    schema: ad_analytics  
+    tables:
+      - name: raw_ad_data
