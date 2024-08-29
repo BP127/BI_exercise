@@ -1,1 +1,1 @@
-# BI_exercise
+# this exercise is about analysis of Ad data
