@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: stg_ad_analytics__raw_data
+    description: this model provides raw data from source
