@@ -55,6 +55,7 @@ from weekly_perfomance_metrics
 select 
     week_start
     ,coalesce(previous_week, week_start) as previous_week
+    ,coalesce(days_diff, 0) as days_diff
 	,initial_engagements
 	,completed_engagements
 	,total_clicks
