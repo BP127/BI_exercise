@@ -1,12 +1,29 @@
+
+
+{{
+    config(
+        materialized='incremental'
+    )
+}}
+
+
 -- there are lot of rows where publisher_name, advertiser_name is null so need to remove this that doesn't help to analysis
 
 with stg_raw_data as 
 (   select 
         *  
     from {{ ref('stg_ad_analytics__raw_data') }}
-    where 
-    publisher_name is not null
+    
+{% if is_incremental() %}
+
+  -- this filter will only be applied on an incremental run
+  -- (uses >= to include records whose timestamp occurred since the last run of this model)
+  -- (If month is NULL or the table is truncated, the condition will always be true and load all records)
+where month > (select coalesce(max(month),'1900-01-01') as max_date from {{ this }} )
+    and  publisher_name is not null
     and advertiser_name is not null
+{% endif %}
+    
 ),
 
 -- there are missing values in base metric columns replace null with 0 and publisher and advertiser shouldn't be null
